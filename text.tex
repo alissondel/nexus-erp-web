@@ -1,0 +1,29 @@
+<Link
+              href={menu?.link}
+              key={i}
+              className={` ${menu?.margin && 'mt-5'} group
+              flex items-center gap-3.5 rounded-md p-2 text-sm font-medium hover:text-blue-500
+              `}
+            >
+              <div>{menu.icon}</div>
+              <h2
+                className={`duration-500 ${
+                  !open && 'overflow-hidden opacity-0'
+                }`}
+              >
+                {menu?.name}
+              </h2>
+
+              {/* TOOLTIP */}
+              <h2
+                className={`${open && 'hidden'}
+                  absolute left-48 w-0 overflow-hidden whitespace-pre
+                rounded-md bg-white px-0 py-0 font-semibold text-gray-900
+                  drop-shadow-lg group-hover:left-14 group-hover:w-fit
+                  group-hover:px-2 group-hover:py-1 group-hover:duration-300
+                `}
+              >
+                {menu?.name}
+              </h2>
+              {/* TOOLTIP */}
+            </Link>
