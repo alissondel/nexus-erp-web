@@ -1,3 +1,11 @@
+import Navbar from '@/pages/dashboard/navbar'
+import Sidebar from '@/pages/dashboard/sidebar'
+
 export default function Category() {
-  return <h1>Categoria</h1>
+  return (
+    <>
+      <Sidebar />
+      <Navbar />
+    </>
+  )
 }

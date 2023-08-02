@@ -1,3 +1,11 @@
+import Navbar from '@/pages/dashboard/navbar'
+import Sidebar from '@/pages/dashboard/sidebar'
+
 export default function City() {
-  return <h1>Cidade</h1>
+  return (
+    <>
+      <Sidebar />
+      <Navbar />
+    </>
+  )
 }

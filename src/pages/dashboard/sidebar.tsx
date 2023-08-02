@@ -1,97 +1,34 @@
 'use client'
 
-import { useState } from 'react'
-
+import { APP_ROUTES } from '@/constants/app-routes'
 import {
-  Search,
-  Package,
-  UserPlus,
-  Settings,
-  ArrowLeft,
-  ShoppingBag,
-  ChevronDown,
   AlertTriangle,
-  LayoutDashboard,
+  ArrowLeft,
+  ChevronDown,
   CircleDollarSign,
+  LayoutDashboard,
+  Package,
+  Search,
+  Settings,
+  ShoppingBag,
+  UserPlus,
 } from 'lucide-react'
 import Link from 'next/link'
-import { APP_ROUTES } from '@/constants/app-routes'
+import { useState } from 'react'
 
 export default function Sidebar() {
   const [open, setOpen] = useState<boolean>(true)
-  const [subMenuOpen, setSubMenuOpen] = useState<boolean>(false)
 
-  const Menus = [
-    {
-      title: 'Dashboard',
-      icon: <LayoutDashboard />,
-      route: APP_ROUTES.private.dashboard,
-    },
-    {
-      title: 'Em Breve',
-      icon: <AlertTriangle />,
-      route: APP_ROUTES.private.state,
-    },
-    {
-      title: 'Vendas',
-      icon: <UserPlus />,
-      submenu: true,
-      spacing: true,
-      submenuItems: [
-        { title: 'Pedido de Venda', route: APP_ROUTES.private.dashboard },
-        { title: 'Cancelar Venda', route: APP_ROUTES.private.dashboard },
-        { title: 'Finalizar Venda', route: APP_ROUTES.private.dashboard },
-      ],
-    },
-    {
-      title: 'Financeiro',
-      icon: <CircleDollarSign />,
-      submenu: true,
-      submenuItems: [
-        { title: 'Abertura do Caixa', route: APP_ROUTES.private.dashboard },
-        { title: 'Fechamento do Caixa', route: APP_ROUTES.private.dashboard },
-        { title: 'Contas à Pagar', route: APP_ROUTES.private.dashboard },
-        { title: 'Contas à Receber', route: APP_ROUTES.private.dashboard },
-      ],
-    },
-    {
-      title: 'Estoque',
-      icon: <Package />,
-      submenu: true,
-      submenuItems: [
-        { title: 'Cadastro de Marca', route: APP_ROUTES.private.brand },
-        { title: 'Cadastro de Grupo', route: APP_ROUTES.private.dashboard },
-        { title: 'Cadastro de Sub Grupo', route: APP_ROUTES.private.dashboard },
-        { title: 'Cadastro de Categoria', route: APP_ROUTES.private.category },
-        { title: 'Cadastro de Produto', route: APP_ROUTES.private.product },
-        { title: 'Entrada de Estoque', route: APP_ROUTES.private.dashboard },
-        { title: 'Pedido de Compra', route: APP_ROUTES.private.dashboard },
-      ],
-    },
-    {
-      title: 'Configuração',
-      icon: <Settings />,
-      submenu: true,
-      submenuItems: [
-        { title: 'Permissões', route: APP_ROUTES.private.dashboard },
-        { title: 'Impressoras', route: APP_ROUTES.private.dashboard },
-        { title: 'Cupom Fiscal', route: APP_ROUTES.private.dashboard },
-        { title: 'Nota Fiscal', route: APP_ROUTES.private.dashboard },
-        { title: 'Clientes', route: APP_ROUTES.private.dashboard },
-        { title: 'Usuários', route: APP_ROUTES.private.user },
-        { title: 'Fornecedor', route: APP_ROUTES.private.dashboard },
-        { title: 'Cidade', route: APP_ROUTES.private.city },
-        { title: 'Estado', route: APP_ROUTES.private.state },
-      ],
-    },
-  ]
+  const [menuVenda, setMenuVenda] = useState<boolean>(false)
+  const [menuFinanceiro, setMenuFinanceiro] = useState<boolean>(false)
+  const [menuEstoque, setMenuEstoque] = useState<boolean>(false)
+  const [menuConfiguracao, setMenuConfiguracao] = useState<boolean>(false)
 
   return (
     <div className="fixed float-left flex">
       <div
-        className={`h-screen ${
-          open ? 'w-72' : 'w-20'
-        }  relative bg-slate-100 p-5 pt-8 duration-300 dark:bg-blue-800`}
+        className={`relative h-screen bg-blue-800 p-5 pt-8 duration-300 dark:bg-zinc-800
+        ${open ? 'w-72' : 'w-20'}  `}
       >
         <ArrowLeft
           className={`absolute -right-3 top-9 cursor-pointer rounded-full
@@ -100,15 +37,15 @@ export default function Sidebar() {
           `}
           onClick={() => setOpen(!open)}
         />
-        <div className="inline-flex">
+        <div className="inline-flex" title="Nexus ERP">
           <ShoppingBag
             size={!open ? 40 : 25}
-            className="float-left ml-2 mr-2 mt-1.5 block cursor-pointer rounded"
+            className="float-left ml-2 mr-2 mt-1.5 block cursor-pointer rounded text-white"
           />
           <h1
-            className={`origin-left text-2xl font-medium ${
+            className={`origin-left text-2xl font-medium text-white duration-75 ${
               !open && 'scale-0'
-            } duration-75`}
+            }`}
           >
             Nexus ERP
           </h1>
@@ -126,50 +63,284 @@ export default function Sidebar() {
           <input
             type="search"
             placeholder="Pesquisar... "
-            className={`w-full bg-transparent text-base text-black focus:outline-none ${
+            className={`w-full cursor-pointer bg-transparent text-base text-black focus:outline-none dark:text-white ${
               !open && 'hidden'
             }`}
           />
         </div>
         <ul className="pt-2">
-          {Menus.map((menu, index) => (
-            <Link key={index} href={menu.route ? menu.route : ''}>
+          <li
+            className={`mt-2 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-zinc-500`}
+            title="Dashboard"
+          >
+            <span className="float-left block text-2xl text-white">
+              <LayoutDashboard />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium text-white duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Dashboard
+            </span>
+          </li>
+          <li
+            className={`mt-2 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-zinc-500`}
+            title="Em Breve"
+          >
+            <span className="float-left block text-2xl text-white">
+              <AlertTriangle />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium text-white duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Em Breve
+            </span>
+          </li>
+          <li
+            className={`mt-9 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-white hover:bg-zinc-500`}
+            title="Vendas"
+          >
+            <span className="float-left block text-2xl text-white">
+              <UserPlus />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium text-white duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Vendas
+            </span>
+            <ChevronDown
+              className={`${menuVenda && 'rotate-180'}`}
+              onClick={() => setMenuVenda(!menuVenda)}
+            />
+          </li>
+          {menuVenda && open && (
+            <ul>
               <li
-                className={` flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm hover:bg-zinc-500 ${
-                  menu.spacing ? 'mt-9' : 'mt-2'
-                }`}
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
               >
-                <span className="float-left block text-2xl" title={menu.title}>
-                  {menu.icon ? menu.icon : <LayoutDashboard />}
-                </span>
-                <span
-                  className={`flex-1 text-base font-medium duration-200 ${
-                    !open && 'hidden'
-                  }`}
-                >
-                  {menu.title}
-                </span>
-                {menu.submenu && open && (
-                  <ChevronDown
-                    className={`${subMenuOpen && 'rotate-180'}`}
-                    onClick={() => setSubMenuOpen(!subMenuOpen)}
-                  />
-                )}
+                <Link href={APP_ROUTES.private.dashboard}>Pedido de Venda</Link>
               </li>
-              {menu.submenu && subMenuOpen && open && (
-                <ul>
-                  {menu.submenuItems.map((subMenuItem, index) => (
-                    <li
-                      key={index}
-                      className="flex cursor-pointer items-center gap-x-4 rounded-md p-2 px-5 text-sm hover:bg-slate-500"
-                    >
-                      <Link href={subMenuItem.route}>{subMenuItem.title}</Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Link>
-          ))}
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Cancelar Venda</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Finalizar Venda</Link>
+              </li>
+            </ul>
+          )}
+          <li
+            className={`mt-2 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-white hover:bg-zinc-500`}
+            title="Financeiro"
+          >
+            <span className="float-left block text-2xl">
+              <CircleDollarSign />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Financeiro
+            </span>
+            <ChevronDown
+              className={`${menuFinanceiro && 'rotate-180'}`}
+              onClick={() => setMenuFinanceiro(!menuFinanceiro)}
+            />
+          </li>
+          {menuFinanceiro && open && (
+            <ul>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Abertura do Caixa
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Fechamento do Caixa
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Contas à Pagar</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Contas à Receber
+                </Link>
+              </li>
+            </ul>
+          )}
+          <li
+            className={`mt-2 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-white hover:bg-zinc-500`}
+            title="Estoque"
+          >
+            <span className="float-left block text-2xl">
+              <Package />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Estoque
+            </span>
+            <ChevronDown
+              className={`${menuEstoque && 'rotate-180'}`}
+              onClick={() => setMenuEstoque(!menuEstoque)}
+            />
+          </li>
+          {menuEstoque && open && (
+            <ul>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.brand}>Cadastro de Marca</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Cadastro de Grupo
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Cadastro de Sub Grupo
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.category}>
+                  Cadastro de Categoria
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.product}>
+                  Cadastro de Produto
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Entrada de Estoque
+                </Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>
+                  Pedido de Compra
+                </Link>
+              </li>
+            </ul>
+          )}
+          <li
+            className={`mt-2 flex cursor-pointer items-center gap-x-4 rounded-md p-2 text-sm text-white hover:bg-zinc-500`}
+            title="Configurações"
+          >
+            <span className="float-left block text-2xl">
+              <Settings />
+            </span>
+            <span
+              className={`flex-1 text-base font-medium duration-200 ${
+                !open && 'hidden'
+              }`}
+            >
+              Configurações
+            </span>
+            <ChevronDown
+              className={`${menuConfiguracao && 'rotate-180'}`}
+              onClick={() => setMenuConfiguracao(!menuConfiguracao)}
+            />
+          </li>
+          {menuConfiguracao && open && (
+            <ul>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Permissões</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Cupom Fiscal</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Nota Fiscal</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Clientes</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.user}>Usuários</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.dashboard}>Fornecedor</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.city}>Cidade</Link>
+              </li>
+              <li
+                className="flex cursor-pointer items-center gap-x-4 rounded-md
+                p-2 px-5 text-sm text-white hover:bg-slate-500"
+              >
+                <Link href={APP_ROUTES.private.state}>Estado</Link>
+              </li>
+            </ul>
+          )}
         </ul>
       </div>
     </div>
